@@ -1,0 +1,32 @@
+## job.name이 있으면 해당값을 할당하고 없으면 NONE을 할당
+## NONE이 할당되면 어떤 배치도 실행하지 않겠다는 의미. 즉, 값이 없을 때 모든 배치가 실행되지 않도록 막는 역할
+spring:
+  batch:
+    job.names: ${job.name:NONE}
+    initialize-schema: always
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        #        show_sql: sql
+        format_sql: true
+
+  ## mariaDB
+  datasource:
+    data: classpath:db/data.sql
+    initialization-mode: always
+    hikari:
+      jdbc-url: jdbc:mysql://localhost/test?characterEncoding=UTF-8&serverTimezone=UTC
+      username: root
+      password: test
+      driver-class-name: org.mariadb.jdbc.Driver
+
+logging:
+  level:
+    org:
+      springframework.batch: DEBUG
+      hibernate:
+        SQL: debug
+        type: trace
